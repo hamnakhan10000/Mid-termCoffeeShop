@@ -1,0 +1,31 @@
+import React, { useEffect, useState } from "react";
+
+function Menu() {
+  const [items, setItems] = useState([]);
+
+  useEffect(() => {
+    fetch("http://localhost:3000/menu")
+      .then((res) => res.json())
+      .then((data) => setItems(data))
+      .catch((err) => console.error("Error fetching menu:", err));
+  }, []);
+
+  return (
+    <div style={{ padding: "20px" }}>
+      <h1>☕ Coffee Shop Menu</h1>
+      {items.length === 0 ? (
+        <p>Loading menu...</p>
+      ) : (
+        <ul>
+          {items.map((item) => (
+            <li key={item.id}>
+              {item.name} — ${item.price}
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+}
+
+export default Menu;
